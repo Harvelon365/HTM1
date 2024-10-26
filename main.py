@@ -2,7 +2,7 @@
 
 import utils
 from utils import debug_print
-from parse import parseHTML
+from parser import parseHTM1
 from process import HTM1Process
 import argparse
 import pathlib
@@ -19,7 +19,7 @@ args = argparser.parse_args()
 def main():
 	if args.filename != None:
 		f = open(args.filename, "r")
-		proc = HTM1Process(parseHTML(f.read()))
+		proc = HTM1Process(parseHTM1(f.read()))
 		proc.run()
 	elif args.test != None:
 		proc = HTM1Process(utils.test_programs[args.test])

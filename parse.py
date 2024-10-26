@@ -46,9 +46,13 @@ class HTMLParser(HTMLParser):
 		if tag.lower() == "a":
 			href_attr = [i for i in attrs if "href" in i[0].lower()]
 			if (len(href_attr) > 0):
-				parseHTML(str(import_HTM1(href_attr[0][1])))
-				return 0
+				new_ops = parseHTML(str(import_HTM1(href_attr[0][1])))
+				print("help")
+				for op in new_ops:
+					op_list.append(op)
+			return 0
 
+		print(tag)
 		op = ()
 		id_attr = [i for i in attrs if "id" in i[0].lower()]
 		if len(id_attr) > 0 and len(id_attr[0][1]) > 0:
