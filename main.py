@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env .venv/bin/python3
 
 import utils
 from utils import debug_print

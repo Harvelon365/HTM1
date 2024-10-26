@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-import cssutils
 from utils import command_kinds, operation_kinds, debug_print
 import urllib.request
 
