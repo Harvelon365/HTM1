@@ -1,5 +1,5 @@
 from html.parser import HTMLParser
-from htm1 import command_kinds
+from htm1 import command_kinds, debug_colors
 
 op_list = []
 

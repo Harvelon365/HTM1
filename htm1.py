@@ -24,3 +24,10 @@ operation_kinds = [
 	"duplicate",
 ]
 
+debug_colors = {
+    "note": '\033[96m',
+    "good": '\033[92m',
+	"warning": '\033[93m',
+    "fail": '\033[91m',
+    "end": '\033[0m'
+}
