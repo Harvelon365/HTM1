@@ -1,5 +1,5 @@
 from html.parser import HTMLParser
-from htm1 import command_kinds, debug_colors
+from htm1 import command_kinds
 
 op_list = []
 
@@ -14,7 +14,7 @@ class HTMLParser(HTMLParser):
 
 		match op[1]:
 			case 0:
-				op_list.append((op[0],))
+				op_list.append((op[0]))
 			case 1:
 				class_attr = [i for i in attrs if "class" in i]
 				if len(class_attr) == 0:
@@ -49,13 +49,8 @@ class HTMLParser(HTMLParser):
 					
 
 def parseHTML(html):
-	print(debug_colors["note"] + "Starting parse..." + debug_colors["end"])
 	parser = HTMLParser()
 	parser.feed(html)
-	if len(op_list) == 0:
-		print(debug_colors["warning"] + "HTM1 file empty!" + debug_colors["end"])
-		quit()
-	print(debug_colors["good"] + "Parse complete!" + debug_colors["end"])
 	return op_list
 
 print(parseHTML('<> <iftyu live="death" class="" src="test">'))

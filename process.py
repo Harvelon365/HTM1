@@ -5,10 +5,13 @@ test_code = [
 	("output", 1),
 ]
 
-class Htm1Process(code):
-	self.code = code
+class HTM1Process():
+	self.code = []
 	self.stax = {}
 	self.trace = []
+
+	def __init__(self, code):
+		self.code = code
 
 	def run(self):
 		for i in self.code:
