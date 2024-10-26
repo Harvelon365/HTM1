@@ -67,7 +67,8 @@ class HTM1Process():
 					self.cmd_push(x, a+b)
 
 	def output(self, x):
-		print()
+		if x in self.stax and len(self.stax[x]) > 0:
+			print(chr(self.stax[x][-1]))
 
 def exe_htm1(htm1_code):
 	proc = Htm1Process(htm1_code)
