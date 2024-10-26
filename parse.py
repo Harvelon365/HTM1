@@ -140,7 +140,7 @@ class HTMLParser(HTMLParser):
 				if data[i] == "{":
 					initI = i
 					char = data[i]
-					while char != "\n":
+					while char != "\n" and i >= 0:
 						i -= 1
 						char = data[i]
 					selection = data[i:initI]
@@ -148,13 +148,14 @@ class HTMLParser(HTMLParser):
 					styleTags.append(selection)
 			
 			for tag in styleTags:
-				match tag[0]:
-					case "#":
-						self.ignoreIds.append(tag[1:].lower())
-					case ".":
-						self.ignoreClasses.append(tag[1:].lower())
-					case _:
-						self.ignoreElements.append(tag.lower())
+				if len(tag) > 0:
+					match tag[0]:
+						case "#":
+							self.ignoreIds.append(tag[1:].lower())
+						case ".":
+							self.ignoreClasses.append(tag[1:].lower())
+						case _:
+							self.ignoreElements.append(tag.lower())
 					
 
 def parseHTML(html):
