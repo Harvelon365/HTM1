@@ -27,17 +27,28 @@ class HTM1Process():
 				self.cmd(command)
 
 	def print_stax_chars(self):
-		accum = ""
+		accum = "stax: "
+		print(self.stax)
 		for i in range(len(self.stax)):
-			if i not in self.stax:
+			if i + 1 not in self.stax:
 				accum += "_"
 			else:
-				accum += chr(self.stax[i][-1])
+				accum += chr(self.stax[i + 1][-1])
 			accum += " "
-		debug_print(accum)
+		debug_print(accum, "note")
+
+	def print_stax_ints(self):
+		accum = "stax: "
+		for i in range(len(self.stax)):
+			if i + 1 not in self.stax:
+				accum += "_"
+			else:
+				accum += str(self.stax[i + 1][-1])
+			accum += " "
+		debug_print(accum, "note")
 
 	def cmd(self, command):
-		print_stax_chars()
+		self.print_stax_ints()
 		match command:
 			case ("null"):
 				print("how the fuck")
