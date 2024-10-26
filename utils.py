@@ -32,7 +32,7 @@ debug_colors = {
 
 is_debug = True
 
-def debug_print(self, msg, msgKind):
+def debug_print(msg, msgKind):
 	if is_debug:
 		match msgKind:
 			case "note":
@@ -40,6 +40,6 @@ def debug_print(self, msg, msgKind):
 			case "good":
 				print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
 			case "warning":
-				print(debug_colors["warning + "😬 " + msg + debug_colors["end"])
+				print(debug_colors["warning"] + "😬 " + msg + debug_colors["end"])
 			case "fail":
-				print(debug_colors["fail + "💀 " + msg + debug_colors["end"])
+				print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
