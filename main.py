@@ -7,8 +7,10 @@ from process import HTM1Process
 import argparse
 import pathlib
 
-argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", description="An interpreter system for the HTM1 esoteric programming language")
-argparser.add_argument("-f","--filename", type=pathlib.Path, default=None)
+argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", 
+									description="An interpreter system for the HTM1 esoteric programming language",
+									epilog="Visit https://github.com/Harvelon365/HTM1 to see the full readme and docs")
+argparser.add_argument("-f","--filename", type=pathlib.Path, default=None, help="the .htm1 file you want to execute")
 argparser.add_argument("-d", "--debug", help="enable debug mode", action="store_true")
 argparser.add_argument("-t", "--test", type=int, help="run test program with id")
 args = argparser.parse_args()

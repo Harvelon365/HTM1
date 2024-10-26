@@ -149,9 +149,6 @@ class HTMLParser(HTMLParser):
 						self.ignoreClasses.append(tag[1:].lower())
 					case _:
 						self.ignoreElements.append(tag.lower())
-			print(self.ignoreClasses)
-			print(self.ignoreElements)
-			print(self.ignoreIds)
 					
 
 def parseHTML(html):
