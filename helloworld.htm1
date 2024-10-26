@@ -21,8 +21,23 @@
                 <img id="tile" class="h imaging-square" src="./image/me.png">
                 <p id="subs" class="h subtit-maintext">This is a picture of me wearing a large winter coat ready to go out and explore.</p>
             </section>
+            
+            <p id="para" class="2 0">Ooooh bet you werent expecting more text here</p>
+            <p id="para" class="2 1">How about some more text?</p>
+            <p id="me" class="2 h">Some more? What!?!?!</p>
+            <p id="me" class="2 again">This website has a secret you will never know!</p>
+            <p id="p" class="me h">What the hell!</p>
 
             <h2 id="myheading" class="h">This is the end of the page!</h2>
+
+            
+            <div id="sections">
+                <button class="h">Press me!</button>
+                <p id="me" class="h text">Below button text</p>
+                <span id="textbox" class="h me">
+                    <p id="now">Heres some spanned text!</p>
+                </span>
+            </div>
         </main>
     </body>
 </htm1>        
