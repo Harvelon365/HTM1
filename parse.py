@@ -42,6 +42,12 @@ class HTMLParser(HTMLParser):
 		if tag.lower() == "html":
 			self.skipHTML = True
 			return 0
+		
+		if tag.lower() == "a":
+			href_attr = [i for i in attrs if "href" in i[0].lower()]
+			if (len(href_attr) > 0):
+				parseHTML(str(import_HTM1(href_attr[0][1])))
+				return 0
 
 		op = ()
 		id_attr = [i for i in attrs if "id" in i[0].lower()]
