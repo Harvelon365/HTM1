@@ -1,4 +1,4 @@
-#import sys.stdin
+from sys import stdin
 from utils import debug_print
 
 test_code1 = [
@@ -48,11 +48,20 @@ class HTM1Process():
 			accum += " "
 		debug_print(accum, "note")
 
+	def command_str(self, cmd):
+		accum = cmd[0]
+		if len(cmd) >= 2:
+			accum += f" {cmd[1]}"
+		if len(cmd) >= 3:
+			accum += f" {cmd[2]}"
+		return accum
+
 	def cmd(self, command):
 		self.print_stax_ints()
+		debug_print("exec: " + self.command_str(command), "note")
 		match command:
 			case ("null"):
-				print("how the fuck")
+				debug_print("how the fuck", "fail")
 			case ("push", x, y):
 				self.cmd_push(x, y)
 			case ("pop", x, y):
@@ -68,7 +77,7 @@ class HTM1Process():
 			case ("if", x):
 				self.cmd_if(x)
 			case ("endif"):
-				self.cmd_endif(x)
+				self.cmd_endif()
 			case ("loop"):
 				self.cmd_loop()
 			case ("endloop"):
@@ -112,8 +121,27 @@ class HTM1Process():
 			print(chr(self.stax[x][-1]))
 
 	def cmd_if(self, x):
+		if x in self.stax:
+			if self.stax[x] == 0:
+				while self.code[pc] != "endif":
+					self.pc += 1
+
+	def cmd_endif(self):
 		pass
+
+	def cmd_loop(self):
+		pass
+
+	def cmd_endloop(self):
+		while self.code[pc] != "loop":
+			self.pc -= 1
+
+	def cmd_flip(self, x):
+		if x in self.stax:
+			self.stax[x].reverse()
 
 def startProcessing(html):
 	proc = HTM1Process(html)
 	proc.run()
+
+startProcessing(test_code1)
