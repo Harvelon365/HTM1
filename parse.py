@@ -1,10 +1,10 @@
 from html.parser import HTMLParser
-from utils import command_kinds, debug_print
+from utils import command_kinds, operation_kinds, debug_print
 
 op_list = []
+blocks = []
 
 class HTMLParser(HTMLParser):
-	blocks = []
 	skipHTML = False
 
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
@@ -27,7 +27,7 @@ class HTMLParser(HTMLParser):
 			op = command_kinds[len(tag)]
 
 		if (op[0] == "loop" or op[0] == "if"):
-			self.blocks.append((tag, op[0]))
+			blocks.append((tag, op[0]))
 
 		match op[1]:
 			case 0:
@@ -75,7 +75,10 @@ class HTMLParser(HTMLParser):
 							number = str(number) + str(len(digit))
 					params.append(int(number))
 
-				op_list.append((op[0], params[0], params[1]))
+				if (op[0] == "op"):
+					op_list.append((op[0], params[0], operation_kinds[params[1]]))
+				else:
+					op_list.append((op[0], params[0], params[1]))
 
 	def handle_endtag(self, tag: str):
 		if tag.lower() == "html":
@@ -84,9 +87,9 @@ class HTMLParser(HTMLParser):
 		if tag.lower() == "htm1":
 			self.skipHTML = True
 
-		if len(self.blocks) > 0 and tag == self.blocks[-1][0]:
-			op_list.append(("end" + self.blocks[-1][1],))
-			self.blocks.pop()
+		if len(blocks) > 0 and tag == blocks[-1][0]:
+			op_list.append(("end" + blocks[-1][1],))
+			blocks.pop()
 			return 0
 					
 
@@ -96,6 +99,9 @@ def parseHTML(html):
 	parser.feed(html)
 	if len(op_list) == 0:
 		debug_print("HTM1 file empty!", "warning")
+		quit()
+	if len(blocks) > 0:
+		debug_print("Incomplete loop/if structure present!", "fail")
 		quit()
 	debug_print("Parse complete!", "good")
 	return op_list
