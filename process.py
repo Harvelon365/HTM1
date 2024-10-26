@@ -1,25 +1,6 @@
 from sys import stdin
 from utils import debug_print
 
-test_code1 = [
-	("push", 1, ord("a")),
-	("push", 1, 2),
-	("op", 1, "+"),
-	("output", 1),
-]
-
-test_code2 = [
-	("push", 0, 0),
-	("push", 1, 5),
-	("loop",),
-	("if", 0, 1),
-	("break",),
-	("endif",),
-	("push", 0, 1),
-	("op", 0, "+"),
-	("endloop",),
-]
-
 class HTM1Process():
 
 	def __init__(self, code):
@@ -57,16 +38,7 @@ class HTM1Process():
 			accum += " "
 		debug_print(accum, "note")
 
-	def command_str(self, cmd):
-		accum = cmd[0]
-		if len(cmd) >= 2:
-			accum += f" {cmd[1]}"
-		if len(cmd) >= 3:
-			accum += f" {cmd[2]}"
-		return accum
-
 	def cmd(self, command):
-		debug_print(command, "info")
 		self.print_stax_ints()
 		match command:
 			case ("null",):
@@ -163,6 +135,7 @@ class HTM1Process():
 					a = s.pop()
 					b = s.pop()
 					self.cmd_push(x, 1 if a == b else 0)
+
 			case "rm":
 				if len(s) >= 1:
 					s.pop()
@@ -211,9 +184,3 @@ class HTM1Process():
 	def cmd_flip(self, x):
 		if x in self.stax:
 			self.stax[x].reverse()
-
-def startProcessing(html):
-	proc = HTM1Process(html)
-	proc.run()
-
-startProcessing(test_code2)

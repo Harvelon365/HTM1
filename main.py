@@ -1,22 +1,33 @@
+#!/usr/bin/env python3
+
 import utils
+from utils import debug_print
 from parse import parseHTML
-from process import startProcessing
+from process import HTM1Process
 import argparse
 import pathlib
 
 argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", description="An interpreter system for the HTM1 esoteric programming language")
-argparser.add_argument("filename", type=pathlib.Path)
+argparser.add_argument("-f","--filename", type=pathlib.Path, default=None)
 argparser.add_argument("-d", "--debug", help="enable debug mode", action="store_true")
+argparser.add_argument("-t", "--test", type=int, help="run test program with id")
 args = argparser.parse_args()
 
 def main():
-    f = open(args.filename, "r")
-    startProcessing(parseHTML(f.read()))
+	print(args.filename, args.test)
+	if args.filename != None:
+		f = open(args.filename, "r")
+		proc = HTM1Process(parseHTML(f.read()))
+		proc.run()
+	elif args.test != None:
+		proc = HTM1Process(utils.test_programs[args.test])
+		proc.run()
+	else:
+		debug_print("no program", "fail")
 
 if __name__ == '__main__':
-    if (args.debug):
-        utils.is_debug = True
-        print("debug")
-    else:
-        utils.is_debug = False
-    main()
+	if (args.debug):
+		utils.is_debug = True
+	else:
+		utils.is_debug = False
+	main()
