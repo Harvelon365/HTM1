@@ -1,0 +1,28 @@
+<htm1>
+    <head>
+        <style>
+            #myheadnot {
+                color: #123456;
+                font-weight: 16px;
+            }
+        </style>
+    </head>
+    <body class="bodybit-2">
+        <main class="centre-darkareas">
+            <h1 id="head" class="toptext-titles">My Website</h1>
+            <h2 id="myheadnot">This should not be happened!</h2>
+            <h2 id="head" class="toptext-titles">Here you can view all the work that I have done!</h2>
+            <p id="para" class="pagraph-9">This website is a portfolio of my works and acheivements in a simple and easy to read format!</p>
+
+            <section id="line" class="mid-li">
+                <h2 id="head" class="headings-upwards">About Me</h2>
+                <p id="para" class="pagraph-9">I am a student at university studying computer science, I am interested in operating systems and Rust.</p>
+                <p id="para" class="maintext-sm">I enjoy long walks in the country side and romps in the fenns and spinneys.</p>
+                <img id="tile" class="imaging-square" src="./image/me.png">
+                <p id="subs" class="subtit-maintext">This is a picture of me wearing a large winter coat ready to go out and explore.</p>
+            </section>
+
+            <h2 id="myheading">This is the end of the page!</h2>
+        </main>
+    </body>
+</htm1>
