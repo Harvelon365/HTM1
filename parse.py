@@ -14,7 +14,7 @@ class HTMLParser(HTMLParser):
 
 		match op[1]:
 			case 0:
-				op_list.append((op[0]))
+				op_list.append((op[0],))
 			case 1:
 				class_attr = [i for i in attrs if "class" in i][0]
 				raw_params = class_attr[1].split(" ")
@@ -46,4 +46,4 @@ def parseHTML(html):
 	parser.feed(html)
 	return op_list
 
-print(parseHTML('<iftyu live="death" class="hello people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefgh" class="house">'))
+print(parseHTML('<iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house">'))
