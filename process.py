@@ -9,7 +9,18 @@ test_code1 = [
 ]
 
 test_code2 = [
-	()
+	("push", 1, 0),
+	("loop",),
+	("op", 1, "dup"),
+	("push", 1, 5),
+	("op", 1, "="),
+	("if", 1),
+	("break",),
+	("endif",),
+	("op", 1, "rm"),
+	("push", 1, 1),
+	("op", 1, "+"),
+	("endloop",),
 ]
 
 class HTM1Process():
@@ -44,7 +55,7 @@ class HTM1Process():
 			if i + 1 not in self.stax:
 				accum += "_"
 			else:
-				accum += str(self.stax[i + 1][-1])
+				accum += str(self.stax[i + 1])
 			accum += " "
 		debug_print(accum, "note")
 
@@ -57,32 +68,43 @@ class HTM1Process():
 		return accum
 
 	def cmd(self, command):
+		debug_print(command, "info")
 		self.print_stax_ints()
-		debug_print("exec: " + self.command_str(command), "note")
 		match command:
-			case ("null"):
+			case ("null",):
 				debug_print("how the fuck", "fail")
 			case ("push", x, y):
+				debug_print(f"({self.pc}) pushing {y} to {x}", "note")
 				self.cmd_push(x, y)
 			case ("pop", x, y):
+				debug_print(f"({self.pc}) popping from {x} to {y}", "note")
 				self.cmd_pop(x, y)
 			case ("op", x, y):
+				debug_print(f"({self.pc}) applying {y} to {x}", "note")
 				self.cmd_op(x, y)
-			case ("break"):
+			case ("break",):
+				debug_print(f"({self.pc}) breaking", "note")
 				self.cmd_break()
 			case ("input", x):
+				debug_print(f"({self.pc}) inputting to {x}", "note")
 				self.cmd_input(x)
 			case ("output", x):
+				debug_print(f"({self.pc}) outputting from {x}", "note")
 				self.cmd_output(x)
 			case ("if", x):
+				debug_print(f"({self.pc}) testing {x}", "note")
 				self.cmd_if(x)
-			case ("endif"):
+			case ("endif",):
+				debug_print(f"({self.pc}) end if", "note")
 				self.cmd_endif()
-			case ("loop"):
+			case ("loop",):
+				debug_print(f"({self.pc}) looping", "note")
 				self.cmd_loop()
-			case ("endloop"):
+			case ("endloop",):
+				debug_print(f"({self.pc}) end loop", "note")
 				self.cmd_endloop()
 			case ("flip", x):
+				debug_print(f"({self.pc}) flipping {x}", "note")
 				self.cmd_flip(x)
 		self.pc += 1
 
@@ -107,9 +129,52 @@ class HTM1Process():
 					a = s.pop()
 					b = s.pop()
 					self.cmd_push(x, a+b)
+			case "-":
+				if len(s) >= 2:
+					a = s.pop()
+					b = s.pop()
+					self.cmd_push(x, a-b)
+			case "*":
+				if len(s) >= 2:
+					a = s.pop()
+					b = s.pop()
+					self.cmd_push(x, a*b)
+			case "/":
+				if len(s) >= 2:
+					a = s.pop()
+					b = s.pop()
+					self.cmd_push(x, a/b)
+			case "&&":
+				if len(s) >= 2:
+					a = s.pop() != 0
+					b = s.pop() != 0
+					self.cmd_push(x, 1 if (a and b) == True else 0)
+			case "||":
+				if len(s) >= 2:
+					a = s.pop() != 0
+					b = s.pop() != 0
+					self.cmd_push(x, 1 if (a or b) == True else 0)
+			case "!":
+				if len(s) >= 1:
+					a = s.pop() != 0
+					self.cmd_push(x, 1 if a else 0)
+			case "=":
+				if len(s) >= 2:
+					a = s.pop()
+					b = s.pop()
+					self.cmd_push(x, 1 if a == b else 0)
+			case "rm":
+				if len(s) >= 1:
+					s.pop()
+			case "dup":
+				if len(s) >= 1:
+					a = s.pop()
+					self.cmd_push(x, a)
+					self.cmd_push(x, a)
 
 	def cmd_break(self):
-		while self.code[pc] != "endloop":
+		debug_print(f"pc is {self.pc}, code is {self.code}", "note")
+		while self.code[self.pc][0] != "endloop":
 			self.pc += 1
 
 	def cmd_input(self, x):
@@ -123,6 +188,7 @@ class HTM1Process():
 	def cmd_if(self, x):
 		if x in self.stax:
 			if self.stax[x] == 0:
+				debug_print(f"" "note")
 				while self.code[pc] != "endif":
 					self.pc += 1
 
@@ -144,4 +210,4 @@ def startProcessing(html):
 	proc = HTM1Process(html)
 	proc.run()
 
-startProcessing(test_code1)
+startProcessing(test_code2)
