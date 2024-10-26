@@ -55,11 +55,11 @@ class HTM1Process():
 			case ("break",):
 				debug_print(f"({self.pc}) breaking", "note")
 				self.cmd_break()
-			case ("input", x):
-				debug_print(f"({self.pc}) inputting to S{x}", "note")
-				self.cmd_input(x)
-			case ("output", x):
-				debug_print(f"({self.pc}) outputting from S{x}", "note")
+			case ("input", x, y):
+				debug_print(f"({self.pc}) inputting to S{x} mode {y}", "note")
+				self.cmd_input(x, y)
+			case ("output", x, y):
+				debug_print(f"({self.pc}) outputting from S{x} mode {y}", "note")
 				self.cmd_output(x)
 			case ("if", x, y):
 				debug_print(f"({self.pc}) test S{x} == S{y}", "note")
@@ -144,13 +144,21 @@ class HTM1Process():
 		while self.code[self.pc][0] != "endloop":
 			self.pc += 1
 
-	def cmd_input(self, x):
-		ch = stdin.read(1)
-		self.cmd_push(x, ord(ch))
+	def cmd_input(self, x, y):
+		if y == 0:
+			ch = stdin.read(1)
+			self.cmd_push(x, ord(ch))
+		else:
+			n = int(input())
+			self.cmd_push(x, n)
 
-	def cmd_output(self, x):
+	def cmd_output(self, x, y):
 		if x in self.stax and len(self.stax[x]) > 0:
-			print(chr(self.stax[x][-1]), end="")
+			n = self.stax[x][-1]
+		if y == 0:
+			print(chr(n), end="")
+		else:
+			print(n)
 
 	def cmd_if(self, x, y):
 		if x in self.stax and y in self.stax:

@@ -6,13 +6,13 @@ command_kinds = [
 	("op", 2),		# x = stack, y = opcode			2
 	("break", 0),	#								3
 	("push", 2),	# x = stack, y  = data			4
-	("input", 1),	# x = stack						5
-	("output", 1),	# x = stack						6
+	("input", 2),	# x = stack, y = is char		5
+	("output", 2),	# x = stack, y = is char		6
 	("if", 2),		# x = stack a, y = stack b		7
 	("loop", 0),	#								8
 	("flip", 1),	# x = stack						9
     ("endif", 0),	#								10
-    ("endloop", 0), #								11
+    ("endloop", 0), #				 				11
 ]
 
 operation_kinds = [
