@@ -20,6 +20,7 @@ If an element doesn't pattern-match to any command, it just gets ignored.
 Commands in HTM1 operate on an infinite set of stacks of integers. I thought stacks were more fun than your average Turing tape, and it means no command needs more than two parameters. Like any good language, there's built-in Unicode support.
 
 There are 9 commands, each with up to two parameters:
+
 1. Pop from stack x and push straight to stack y
 2. Execute operation y on stack x
 3. Break from loop
@@ -29,11 +30,13 @@ There are 9 commands, each with up to two parameters:
 7. If stack x == stack y then execute children
 8. Loop over children
 9. Flip stack x
+
 Command IDs are 1-indexed because empty ID or tag names don't really make sense. They're in a weird order because I tried to assign the most commonly used IDs with the most commonly used tags.
 
 ### Operators
 
 Command 2 accepts 9 operations:
+
 0. +
 1. -
 2. *
@@ -43,6 +46,7 @@ Command 2 accepts 9 operations:
 6. Not
 7. =
 8. <
+
 The boolean operators consider 0 as false and anything else as true, with 1 as default.
 
 ### Control Structures
@@ -61,6 +65,7 @@ You might want to break from loops.
 ### IO
 
 Commands 5 and 6 accept a boolean "mode" as y:
+
 0. Treat numbers as strings of digits, and IO them with a newline at the end
 1. Treat numbers as indivual Unicode characters, and IO one character at a time
 
