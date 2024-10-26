@@ -1,7 +1,7 @@
 from html.parser import HTMLParser
-import htm1.py
+from htm1 import command_kinds
 
-stack = []
+op_list = []
 
 class HTMLParser(HTMLParser):
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
@@ -10,16 +10,16 @@ class HTMLParser(HTMLParser):
 			i += 1
 			op = ()
 			if attrs[i][0].lower() == 'id':
-				# get op from id length
+				op = commands[len(attrs[i][1])]
 			else:
-				# get op from tag length
-				continue
+				op = commands[len(tag)]
+
 			match op[1]:
 					case 0:
 						continue
 					case 1:
 						i += 1
-						stack.append(len(attrs[i][1]))
+						op_list.append(len(attrs[i][1]))
 
 
 def parseHTML(html):
