@@ -1,8 +1,13 @@
 from html.parser import HTMLParser
 from utils import command_kinds, operation_kinds, debug_print
+import urllib.request
 
 op_list = []
 blocks = []
+
+def import_HTM1(href):
+	with urllib.request.urlopen(href) as res:
+		return res.read()
 
 class HTMLParser(HTMLParser):
 	skipHTML = False
