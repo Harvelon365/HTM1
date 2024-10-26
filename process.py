@@ -1,3 +1,4 @@
+import sys.stdin
 from utils import debug_print
 
 test_code1 = [
@@ -103,7 +104,8 @@ class HTM1Process():
 			self.pc += 1
 
 	def cmd_input(self, x):
-		pass
+		ch = sys.stdin.read(1)
+		self.cmd_push(x, ord(ch))
 
 	def cmd_output(self, x):
 		if x in self.stax and len(self.stax[x]) > 0:
