@@ -19,7 +19,6 @@ class HTM1Process():
 
 	def print_stax_chars(self):
 		accum = "stax: "
-		print(self.stax)
 		for i in range(len(self.stax)):
 			if i not in self.stax:
 				accum += "_"
@@ -153,6 +152,7 @@ class HTM1Process():
 			self.cmd_push(x, n)
 
 	def cmd_output(self, x, y):
+		n = 0
 		if x in self.stax and len(self.stax[x]) > 0:
 			n = self.stax[x][-1]
 		if y == 0:
