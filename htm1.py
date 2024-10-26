@@ -29,3 +29,21 @@ debug_colors = {
     "fail": '\033[91m',
     "end": '\033[0m'
 }
+
+class HTM1Handler():
+	self.is_debug = False
+
+	def __init__(is_debug):
+		self.is_debug = is_debug
+
+	def debug_print(self, msg, msgKind):
+		if self.is_debug:
+			match msgKind:
+				case "note":
+					print(debug_colors["note"] + "☝ " + msg + debug_colors["end"])
+				case "good":
+					print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
+				case "warning":
+					print(debug_colors["warning + "😬 " + msg + debug_colors["end"])
+				case "fail":
+					print(debug_colors["fail + "💀 " + msg + debug_colors["end"])
