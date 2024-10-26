@@ -60,7 +60,7 @@ class HTM1Process():
 				self.cmd_input(x, y)
 			case ("output", x, y):
 				debug_print(f"({self.pc}) outputting from S{x} mode {y}", "note")
-				self.cmd_output(x)
+				self.cmd_output(x, y)
 			case ("if", x, y):
 				debug_print(f"({self.pc}) test S{x} == S{y}", "note")
 				self.cmd_if(x, y)
