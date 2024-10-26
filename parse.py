@@ -5,30 +5,42 @@ op_list = []
 
 class HTMLParser(HTMLParser):
 	blocks = []
+	skipHTML = False
 
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
+		if tag.lower() == "htm1":
+			self.skipHTML = False
+			return 0
+		
+		if self.skipHTML:
+			return 0
+		
+		if tag.lower() == "html":
+			self.skipHTML = True
+			return 0
+
 		op = ()
-		id_attr = [i for i in attrs if "id" in i.lower()]
+		id_attr = [i for i in attrs if "id" in i[0].lower()]
 		if len(id_attr) > 0 and len(id_attr[0][1]) > 0:
 			op = command_kinds[len(id_attr[0][1])]
 		else:
 			op = command_kinds[len(tag)]
 
 		if (op[0] == "loop" or op[0] == "if"):
-			self.blocks.append(op[0])
+			self.blocks.append((tag, op[0]))
 
 		match op[1]:
 			case 0:
 				op_list.append((op[0],))
 			case 1:
-				class_attr = [i for i in attrs if "class" in i.lower()]
+				class_attr = [i for i in attrs if "class" in i[0].lower()]
 				if len(class_attr) == 0:
 					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
 					quit()
 
 				raw_params = class_attr[0][1].split(" ")
 				if len(raw_params) == 1 and raw_params[0] == '':
-					debug_print("Required parameter missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "Warning")
+					debug_print("Required parameter missing - Skipping line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "warning")
 					return 0
 
 				digits = raw_params[0].split("-")
@@ -42,14 +54,14 @@ class HTMLParser(HTMLParser):
 				op_list.append((op[0], int(number)))
 				
 			case 2:
-				class_attr = [i for i in attrs if "class" in i.lower()]
+				class_attr = [i for i in attrs if "class" in i[0].lower()]
 				if len(class_attr) == 0:
 					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
 					quit()
 
 				raw_params = class_attr[0][1].split(" ")
 				if (len(raw_params) == 1 and raw_params[0] == '') or len(raw_params) < 2:
-					debug_print("Required parameter missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
+					debug_print("Required parameter missing - Skipping line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "warning")
 					quit()
 
 				params = []
@@ -64,6 +76,18 @@ class HTMLParser(HTMLParser):
 					params.append(int(number))
 
 				op_list.append((op[0], params[0], params[1]))
+
+	def handle_endtag(self, tag: str):
+		if tag.lower() == "html":
+			self.skipHTML = False
+
+		if tag.lower() == "htm1":
+			self.skipHTML = True
+
+		if len(self.blocks) > 0 and tag == self.blocks[-1][0]:
+			op_list.append(("end" + self.blocks[-1][1],))
+			self.blocks.pop()
+			return 0
 					
 
 def parseHTML(html):
