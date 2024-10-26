@@ -9,10 +9,13 @@ class HTMLParser(HTMLParser):
 	isSty1e = False
 	ignoreIds = []
 	ignoreClasses = []
-	ignoreElements = ["head"]
+	ignoreElements = []
 	currentlyIgnoring = []
 
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
+		if tag.lower() == "head":
+			return 0
+
 		if tag.lower() == "sty1e":
 			self.isSty1e = True
 			return 0
@@ -53,7 +56,7 @@ class HTMLParser(HTMLParser):
 			case 1:
 				class_attr = [i for i in attrs if "class" in i[0].lower()]
 				if len(class_attr[0][1]) == 0:
-					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
+					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "warning")
 					
 				if class_attr[0][1] in self.ignoreClasses:
 					return 0
@@ -76,7 +79,7 @@ class HTMLParser(HTMLParser):
 			case 2:
 				class_attr = [i for i in attrs if "class" in i[0].lower()]
 				if len(class_attr[0][1]) == 0:
-					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
+					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "warning")
 				
 				if class_attr[0][1] in self.ignoreClasses:
 					return 0
