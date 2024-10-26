@@ -20,6 +20,7 @@
                 <p id="para" class="h maintext-sm">I enjoy long walks in the country side and romps in the fenns and spinneys.</p>
                 <img id="tile" class="h imaging-square" src="./image/me.png">
                 <p id="subs" class="h subtit-maintext">This is a picture of me wearing a large winter coat ready to go out and explore.</p>
+                <p id="subs" class="h h-way">The coat is very fluffy!</p>
             </section>
             
             <p id="para" class="2 0">Ooooh bet you werent expecting more text here</p>
