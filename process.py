@@ -109,5 +109,6 @@ class HTM1Process():
 		if x in self.stax and len(self.stax[x]) > 0:
 			print(chr(self.stax[x][-1]))
 
-proc = HTM1Process(test_code1)
-proc.run()
+def startProcessing(html):
+	proc = HTM1Process(html)
+	proc.run()

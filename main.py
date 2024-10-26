@@ -1,13 +1,21 @@
-from utils import is_debug
+import utils
 from parse import parseHTML
-from process import exe_htm1
+from process import startProcessing
 import argparse
+import pathlib
+
+argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", description="An interpreter system for the HTM1 esoteric programming language")
+argparser.add_argument("filename", type=pathlib.Path)
+argparser.add_argument("-d", "--debug", help="enable debug mode", action="store_true")
 
 def main():
-    exe_htm1(parseHTML('<iftyu live="death" class="5-6" src="test">'))
+    startProcessing(parseHTML('<iftyu live="death" class="5-6" src="test">'))
 
 if __name__ == '__main__':
-    argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", description="An interpreter system for the HTM1 esoteric programming language")
-    argparser.add_argument("filename")
-    argparser.add_argument("-d", "--debug", help="Enable debug mode")
+    args = argparser.parse_args()
+    if (args.debug):
+        utils.is_debug = True
+        print("debug")
+    else:
+        utils.is_debug = False
     main()
