@@ -10,6 +10,8 @@ command_kinds = [
 	("output", 1),	# x = stack
 	("if", 1),		# x = stack
 	("loop", 0),	#
+    ("endif", 0),	#
+    ("endloop", 0), #
 	("flip", 1),	# x = stack
 ]
 
