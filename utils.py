@@ -65,15 +65,23 @@ test_programs = [
 	],
 ]
 
-def debug_print(msg, msgKind):
+
+def debug_note(msg):
 	if is_debug:
-		match msgKind:
-			case "note":
-				print(debug_colors["note"] + "☝ " + msg + debug_colors["end"])
-			case "good":
-				print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
-			case "warning":
-				print(debug_colors["warning"] + "😨 " + msg + debug_colors["end"])
-			case "fail":
-				print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
-				sys.exit(-1)
+		print(debug_colors["note"] + "☝ " + msg + debug_colors["end"])
+	return
+
+def debug_good(msg):
+	if is_debug:
+		print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
+	return
+
+def debug_warning(msg):
+	if is_debug:
+		print(debug_colors["warning"] + "😨 " + msg + debug_colors["end"])
+	return
+
+def debug_fail(msg):
+	if is_debug:
+		print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
+	sys.exit(-1)

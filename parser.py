@@ -3,7 +3,6 @@ from utils import command_kinds, operation_kinds, debug_print
 import urllib.request
 
 op_list = []
-blocks = []
 ignoreIds = []
 ignoreElements = []
 ignoreClasses = []

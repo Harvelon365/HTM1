@@ -1,7 +1,6 @@
 #!/usr/bin/env .venv/bin/python3
 
-import utils
-from utils import debug_print
+from utils import *
 from parser import parseHTM1
 from process import HTM1Process
 import argparse
@@ -22,14 +21,14 @@ def main():
 		proc = HTM1Process(parseHTM1(f.read()))
 		proc.run()
 	elif args.test != None:
-		proc = HTM1Process(utils.test_programs[args.test])
+		proc = HTM1Process(test_programs[args.test])
 		proc.run()
 	else:
-		debug_print("no program", "fail")
+		debug_fail("No program specified")
 
 if __name__ == '__main__':
 	if (args.debug):
-		utils.is_debug = True
+		is_debug = True
 	else:
-		utils.is_debug = False
+		is_debug = False
 	main()

@@ -1,5 +1,5 @@
 from sys import stdin
-from utils import debug_print
+from utils import *
 
 class HTM1Process():
 
@@ -25,7 +25,7 @@ class HTM1Process():
 			else:
 				accum += chr(self.stax[i][-1])
 			accum += " "
-		debug_print(accum, "note")
+		debug_note(accum)
 
 	def print_stax_ints(self):
 		accum = "stax: "
@@ -35,48 +35,48 @@ class HTM1Process():
 			else:
 				accum += str(self.stax[i])
 			accum += " "
-		debug_print(accum, "note")
+		debug_note(accum)
 
 	def cmd(self, command):
 		self.print_stax_ints()
 		match command:
 			case ("null",):
-				debug_print("how the fuck", "fail")
+				debug_fail("how the fuck")
 			case ("push", x, y):
-				debug_print(f"({self.pc}) pushing {y} to S{x}", "note")
+				debug_note(f"({self.pc}) pushing {y} to S{x}")
 				self.cmd_push(x, y)
 			case ("pop", x, y):
-				debug_print(f"({self.pc}) popping from S{x} to S{y}", "note")
+				debug_note(f"({self.pc}) popping from S{x} to S{y}")
 				self.cmd_pop(x, y)
 			case ("op", x, y):
-				debug_print(f"({self.pc}) applying {y} to S{x}", "note")
+				debug_note(f"({self.pc}) applying {y} to S{x}")
 				self.cmd_op(x, y)
 			case ("break",):
-				debug_print(f"({self.pc}) breaking", "note")
+				debug_note(f"({self.pc}) breaking")
 				self.cmd_break()
 			case ("input", x, y):
-				debug_print(f"({self.pc}) inputting to S{x} mode {y}", "note")
+				debug_note(f"({self.pc}) inputting to S{x} mode {y}")
 				self.cmd_input(x, y)
 			case ("output", x, y):
-				debug_print(f"({self.pc}) outputting from S{x} mode {y}", "note")
+				debug_note(f"({self.pc}) outputting from S{x} mode {y}")
 				self.cmd_output(x, y)
 			case ("if", x, y):
-				debug_print(f"({self.pc}) test S{x} == S{y}", "note")
+				debug_note(f"({self.pc}) test S{x} == S{y}")
 				self.cmd_if(x, y)
 			case ("endif",):
-				debug_print(f"({self.pc}) end if", "note")
+				debug_note(f"({self.pc}) end if")
 				self.cmd_endif()
 			case ("loop",):
-				debug_print(f"({self.pc}) looping", "note")
+				debug_note(f"({self.pc}) looping")
 				self.cmd_loop()
 			case ("endloop",):
-				debug_print(f"({self.pc}) end loop", "note")
+				debug_note(f"({self.pc}) end loop")
 				self.cmd_endloop()
 			case ("flip", x):
-				debug_print(f"({self.pc}) flipping S{x}", "note")
+				debug_note(f"({self.pc}) flipping S{x}")
 				self.cmd_flip(x)
 			case _:
-				debug_print(f"unrecognised command {command}", "warning")
+				debug_warning(f"unrecognised command {command}")
 		self.pc += 1
 
 	def cmd_push(self, x, y):
@@ -167,8 +167,7 @@ class HTM1Process():
 					#debug_print(f"pc is {self.pc}", "note")
 					self.pc += 1
 					if self.pc >= len(self.code):
-						debug_print("missing endif, fell off end of program", "fail")
-						break;
+						debug_fail("missing endif, fell off end of program")
 
 	def cmd_endif(self):
 		pass
@@ -180,8 +179,7 @@ class HTM1Process():
 		while self.code[self.pc][0] != "loop":
 			self.pc -= 1
 			if self.pc >= len(self.code):
-				debug_print("missing endloop, fell off end of program", "fail")
-				break;
+				debug_fail("missing endloop, fell off end of program")
 
 	def cmd_flip(self, x):
 		if x in self.stax:
