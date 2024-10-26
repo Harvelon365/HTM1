@@ -6,8 +6,8 @@ command_kinds = [
 	("op", 2),		# x = stack, y = opcode			2
 	("break", 0),	#								3
 	("push", 2),	# x = stack, y  = data			4
-	("input", 2),	# x = stack, y = is char		5
-	("output", 2),	# x = stack, y = is char		6
+	("input", 2),	# x = stack, y = is long str	5
+	("output", 2),	# x = stack, y = is long str	6
 	("if", 2),		# x = stack a, y = stack b		7
 	("loop", 0),	#								8
 	("flip", 1),	# x = stack						9
