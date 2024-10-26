@@ -11,9 +11,7 @@ args = argparser.parse_args()
 
 def main():
     f = open(args.filename, "r")
-    print(parseHTML(f.read())) 
-
-    #startProcessing(parseHTML('<iftyu live="death" class="5-6" src="test">'))
+    startProcessing(parseHTML(f.read()))
 
 if __name__ == '__main__':
     if (args.debug):
