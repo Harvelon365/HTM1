@@ -1,5 +1,3 @@
-from enum import Enum
-
 command_kinds = [
 	("null", 0),	# ignore
 	("push", 2),	# x = stack, y  = data

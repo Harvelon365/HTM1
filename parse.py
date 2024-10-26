@@ -42,8 +42,14 @@ class HTMLParser(HTMLParser):
 					
 
 def parseHTML(html):
+	print(debug_colors["note"] + "Starting parse..." + debug_colors["end"])
 	parser = HTMLParser()
 	parser.feed(html)
+	if len(op_list) == 0:
+		print(debug_colors["warning"] + "HTM1 file empty!" + debug_colors["end"])
+		quit()
+	print(debug_colors["good"] + "Parse complete!" + debug_colors["end"])
 	return op_list
 
-print(parseHTML('<iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house">'))
+print(parseHTML(""))
+#print(parseHTML('<iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house">'))
