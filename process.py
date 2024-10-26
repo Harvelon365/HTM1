@@ -60,21 +60,21 @@ class HTM1Process():
 			case ("op", x, y):
 				self.cmd_op(x, y)
 			case ("break"):
-				pass
+				self.cmd_break()
 			case ("input", x):
-				pass
+				self.cmd_input(x)
 			case ("output", x):
 				self.cmd_output(x)
 			case ("if", x):
-				pass
-			case ("endif", x):
-				pass
+				self.cmd_if(x)
+			case ("endif"):
+				self.cmd_endif(x)
 			case ("loop"):
-				pass
-			case ("endloop", x):
-				pass
+				self.cmd_loop()
+			case ("endloop"):
+				self.cmd_endloop()
 			case ("flip", x):
-				pass
+				self.cmd_flip(x)
 		self.pc += 1
 
 	def cmd_push(self, x, y):
@@ -110,6 +110,9 @@ class HTM1Process():
 	def cmd_output(self, x):
 		if x in self.stax and len(self.stax[x]) > 0:
 			print(chr(self.stax[x][-1]))
+
+	def cmd_if(self, x):
+		pass
 
 def startProcessing(html):
 	proc = HTM1Process(html)
