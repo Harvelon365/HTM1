@@ -18,8 +18,8 @@ operation_kinds = [
 	"-",
 	"*",
 	"/",
-	"delete",
-	"duplicate",
+	"rm",
+	"dup",
 ]
 
 debug_colors = {
