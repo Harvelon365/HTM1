@@ -77,7 +77,7 @@ class HTM1Process():
 				debug_print(f"({self.pc}) flipping S{x}", "note")
 				self.cmd_flip(x)
 			case _:
-				debug_print("unrecognised command", "warning")
+				debug_print(f"unrecognised command {command}", "warning")
 		self.pc += 1
 
 	def cmd_push(self, x, y):
@@ -88,8 +88,8 @@ class HTM1Process():
 	def cmd_pop(self, x, y):
 		if x in self.stax:
 			if len(self.stax[x]) > 0:
-				popped = stax[x].pop()
-				cmd_push(y, popped)
+				popped = self.stax[x].pop()
+				self.cmd_push(y, popped)
 
 	def cmd_op(self, x, y):
 		if x not in self.stax:
@@ -145,7 +145,7 @@ class HTM1Process():
 			self.pc += 1
 
 	def cmd_input(self, x):
-		ch = sys.stdin.read(1)
+		ch = stdin.read(1)
 		self.cmd_push(x, ord(ch))
 
 	def cmd_output(self, x):
