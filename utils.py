@@ -1,16 +1,16 @@
 command_kinds = [
-	("null", 0),	# ignore
-	("push", 2),	# x = stack, y  = data
-	("pop", 2),		# x = stack from, y = stack to
-	("op", 2),		# x = stack, y = opcode
-	("break", 0),	#
-	("input", 1),	# x = stack
-	("output", 1),	# x = stack
-	("if", 1),		# x = stack
-	("loop", 0),	#
-    ("endif", 0),	#
-    ("endloop", 0), #
-	("flip", 1),	# x = stack
+	("null", 0),	# ignore						0
+	("pop", 2),		# x = stack from, y = stack to	1
+	("op", 2),		# x = stack, y = opcode			2
+	("break", 0),	#								3
+	("push", 2),	# x = stack, y  = data			4
+	("input", 1),	# x = stack						5
+	("output", 1),	# x = stack						6
+	("if", 1),		# x = stack						7
+	("loop", 0),	#								8
+	("flip", 1),	# x = stack						9
+    ("endif", 0),	#								10
+    ("endloop", 0), #								11
 ]
 
 operation_kinds = [

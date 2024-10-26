@@ -4,27 +4,32 @@ from utils import command_kinds, debug_print
 op_list = []
 
 class HTMLParser(HTMLParser):
+	blocks = []
+
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
 		op = ()
-		id_attr = [i for i in attrs if "id" in i]
+		id_attr = [i for i in attrs if "id" in i.lower()]
 		if len(id_attr) > 0 and len(id_attr[0][1]) > 0:
 			op = command_kinds[len(id_attr[0][1])]
 		else:
 			op = command_kinds[len(tag)]
 
+		if (op[0] == "loop" or op[0] == "if"):
+			self.blocks.append(op[0])
+
 		match op[1]:
 			case 0:
 				op_list.append((op[0],))
 			case 1:
-				class_attr = [i for i in attrs if "class" in i]
+				class_attr = [i for i in attrs if "class" in i.lower()]
 				if len(class_attr) == 0:
 					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
 					quit()
 
 				raw_params = class_attr[0][1].split(" ")
 				if len(raw_params) == 1 and raw_params[0] == '':
-					debug_print("Required parameter missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
-					quit()
+					debug_print("Required parameter missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "Warning")
+					return 0
 
 				digits = raw_params[0].split("-")
 				number = ""
@@ -37,7 +42,7 @@ class HTMLParser(HTMLParser):
 				op_list.append((op[0], int(number)))
 				
 			case 2:
-				class_attr = [i for i in attrs if "class" in i]
+				class_attr = [i for i in attrs if "class" in i.lower()]
 				if len(class_attr) == 0:
 					debug_print("Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]), "fail")
 					quit()
