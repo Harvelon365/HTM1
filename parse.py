@@ -71,5 +71,5 @@ def parseHTML(html):
 	debug_print("Parse complete!", "good")
 	return op_list
 
-print(parseHTML('<> <iftyu live="death" class="5-6" src="test">'))
+#print(parseHTML('<> <iftyu live="death" class="5-6" src="test">'))
 #print(parseHTML('<iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house">'))
