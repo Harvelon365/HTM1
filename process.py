@@ -1,23 +1,54 @@
-test_code = [
+from utils import debug_print
+
+test_code1 = [
 	("push", 1, ord("a")),
 	("push", 1, 2),
 	("op", 1, "+"),
 	("output", 1),
 ]
 
+test_code2 = [
+	()
+]
+
 class HTM1Process():
-	self.code = []
-	self.stax = {}
-	self.trace = []
 
 	def __init__(self, code):
 		self.code = code
+		self.stax = {}
+		self.pc = 0
 
 	def run(self):
-		for i in self.code:
-			self.cmd(i)
+		while True:
+			if self.pc == len(self.code):
+				break
+			else:
+				command = self.code[self.pc]
+				self.cmd(command)
+
+	def print_stax_chars(self):
+		accum = "stax: "
+		print(self.stax)
+		for i in range(len(self.stax)):
+			if i + 1 not in self.stax:
+				accum += "_"
+			else:
+				accum += chr(self.stax[i + 1][-1])
+			accum += " "
+		debug_print(accum, "note")
+
+	def print_stax_ints(self):
+		accum = "stax: "
+		for i in range(len(self.stax)):
+			if i + 1 not in self.stax:
+				accum += "_"
+			else:
+				accum += str(self.stax[i + 1][-1])
+			accum += " "
+		debug_print(accum, "note")
 
 	def cmd(self, command):
+		self.print_stax_ints()
 		match command:
 			case ("null"):
 				print("how the fuck")
@@ -32,7 +63,7 @@ class HTM1Process():
 			case ("input", x):
 				pass
 			case ("output", x):
-				pass
+				self.cmd_output(x)
 			case ("if", x):
 				pass
 			case ("endif", x):
@@ -43,6 +74,7 @@ class HTM1Process():
 				pass
 			case ("flip", x):
 				pass
+		self.pc += 1
 
 	def cmd_push(self, x, y):
 		if x not in self.stax:
@@ -66,10 +98,16 @@ class HTM1Process():
 					b = s.pop()
 					self.cmd_push(x, a+b)
 
-	def output(self, x):
+	def cmd_break(self):
+		while self.code[pc] != "endloop":
+			self.pc += 1
+
+	def cmd_input(self, x):
+		pass
+
+	def cmd_output(self, x):
 		if x in self.stax and len(self.stax[x]) > 0:
 			print(chr(self.stax[x][-1]))
 
-def exe_htm1(htm1_code):
-	proc = Htm1Process(htm1_code)
-	proc.run()
+proc = HTM1Process(test_code1)
+proc.run()
