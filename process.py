@@ -9,17 +9,14 @@ test_code1 = [
 ]
 
 test_code2 = [
-	("push", 1, 0),
-	("loop",),
-	("op", 1, "dup"),
+	("push", 0, 0),
 	("push", 1, 5),
-	("op", 1, "="),
-	("if", 1),
+	("loop",),
+	("if", 0, 1),
 	("break",),
 	("endif",),
-	("op", 1, "rm"),
-	("push", 1, 1),
-	("op", 1, "+"),
+	("push", 0, 1),
+	("op", 0, "+"),
 	("endloop",),
 ]
 
@@ -32,30 +29,31 @@ class HTM1Process():
 
 	def run(self):
 		while True:
-			if self.pc == len(self.code):
+			if self.pc >= len(self.code):
 				break
 			else:
 				command = self.code[self.pc]
 				self.cmd(command)
+		self.print_stax_ints()
 
 	def print_stax_chars(self):
 		accum = "stax: "
 		print(self.stax)
 		for i in range(len(self.stax)):
-			if i + 1 not in self.stax:
+			if i not in self.stax:
 				accum += "_"
 			else:
-				accum += chr(self.stax[i + 1][-1])
+				accum += chr(self.stax[i][-1])
 			accum += " "
 		debug_print(accum, "note")
 
 	def print_stax_ints(self):
 		accum = "stax: "
 		for i in range(len(self.stax)):
-			if i + 1 not in self.stax:
+			if i not in self.stax:
 				accum += "_"
 			else:
-				accum += str(self.stax[i + 1])
+				accum += str(self.stax[i])
 			accum += " "
 		debug_print(accum, "note")
 
@@ -74,26 +72,26 @@ class HTM1Process():
 			case ("null",):
 				debug_print("how the fuck", "fail")
 			case ("push", x, y):
-				debug_print(f"({self.pc}) pushing {y} to {x}", "note")
+				debug_print(f"({self.pc}) pushing {y} to S{x}", "note")
 				self.cmd_push(x, y)
 			case ("pop", x, y):
-				debug_print(f"({self.pc}) popping from {x} to {y}", "note")
+				debug_print(f"({self.pc}) popping from S{x} to S{y}", "note")
 				self.cmd_pop(x, y)
 			case ("op", x, y):
-				debug_print(f"({self.pc}) applying {y} to {x}", "note")
+				debug_print(f"({self.pc}) applying {y} to S{x}", "note")
 				self.cmd_op(x, y)
 			case ("break",):
 				debug_print(f"({self.pc}) breaking", "note")
 				self.cmd_break()
 			case ("input", x):
-				debug_print(f"({self.pc}) inputting to {x}", "note")
+				debug_print(f"({self.pc}) inputting to S{x}", "note")
 				self.cmd_input(x)
 			case ("output", x):
-				debug_print(f"({self.pc}) outputting from {x}", "note")
+				debug_print(f"({self.pc}) outputting from S{x}", "note")
 				self.cmd_output(x)
-			case ("if", x):
-				debug_print(f"({self.pc}) testing {x}", "note")
-				self.cmd_if(x)
+			case ("if", x, y):
+				debug_print(f"({self.pc}) test S{x} == S{y}", "note")
+				self.cmd_if(x, y)
 			case ("endif",):
 				debug_print(f"({self.pc}) end if", "note")
 				self.cmd_endif()
@@ -104,8 +102,10 @@ class HTM1Process():
 				debug_print(f"({self.pc}) end loop", "note")
 				self.cmd_endloop()
 			case ("flip", x):
-				debug_print(f"({self.pc}) flipping {x}", "note")
+				debug_print(f"({self.pc}) flipping S{x}", "note")
 				self.cmd_flip(x)
+			case _:
+				debug_print("unrecognised command", "warning")
 		self.pc += 1
 
 	def cmd_push(self, x, y):
@@ -173,7 +173,7 @@ class HTM1Process():
 					self.cmd_push(x, a)
 
 	def cmd_break(self):
-		debug_print(f"pc is {self.pc}, code is {self.code}", "note")
+		#debug_print(f"pc is {self.pc}, code is {self.code}", "note")
 		while self.code[self.pc][0] != "endloop":
 			self.pc += 1
 
@@ -183,14 +183,17 @@ class HTM1Process():
 
 	def cmd_output(self, x):
 		if x in self.stax and len(self.stax[x]) > 0:
-			print(chr(self.stax[x][-1]))
+			print(chr(self.stax[x][-1]), end="")
 
-	def cmd_if(self, x):
-		if x in self.stax:
-			if self.stax[x] == 0:
-				debug_print(f"" "note")
-				while self.code[pc] != "endif":
+	def cmd_if(self, x, y):
+		if x in self.stax and y in self.stax:
+			if self.stax[x] != self.stax[y]:
+				while self.code[self.pc][0] != "endif":
+					#debug_print(f"pc is {self.pc}", "note")
 					self.pc += 1
+					if self.pc >= len(self.code):
+						debug_print("missing endif, fell off end of program", "fail")
+						break;
 
 	def cmd_endif(self):
 		pass
@@ -199,8 +202,11 @@ class HTM1Process():
 		pass
 
 	def cmd_endloop(self):
-		while self.code[pc] != "loop":
+		while self.code[self.pc][0] != "loop":
 			self.pc -= 1
+			if self.pc >= len(self.code):
+				debug_print("missing endloop, fell off end of program", "fail")
+				break;
 
 	def cmd_flip(self, x):
 		if x in self.stax:

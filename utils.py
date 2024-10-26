@@ -40,6 +40,6 @@ def debug_print(msg, msgKind):
 			case "good":
 				print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
 			case "warning":
-				print(debug_colors["warning"] + "😬 " + msg + debug_colors["end"])
+				print(debug_colors["warning"] + "😨 " + msg + debug_colors["end"])
 			case "fail":
 				print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
