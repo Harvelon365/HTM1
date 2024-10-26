@@ -14,7 +14,6 @@ argparser.add_argument("-t", "--test", type=int, help="run test program with id"
 args = argparser.parse_args()
 
 def main():
-	print(args.filename, args.test)
 	if args.filename != None:
 		f = open(args.filename, "r")
 		proc = HTM1Process(parseHTML(f.read()))

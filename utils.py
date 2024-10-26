@@ -1,3 +1,5 @@
+import sys
+
 command_kinds = [
 	("null", 0),	# ignore						0
 	("pop", 2),		# x = stack from, y = stack to	1
@@ -56,6 +58,7 @@ test_programs = [
 
 	# prime number test
 	[
+
 	],
 ]
 
