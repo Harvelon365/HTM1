@@ -1,6 +1,6 @@
 from enum import Enum
 
-commands = [
+command_kinds = [
 	("null", 0),	# ignore
 	("push", 2),	# x = stack, y  = data
 	("pop", 2),		# x = stack from, y = stack to
@@ -13,7 +13,7 @@ commands = [
 	("flip", 1),	# x = stack
 ]
 
-operations = [
+operation_kinds = [
 	"+",
 	"-",
 	"*",
@@ -21,3 +21,4 @@ operations = [
 	"delete",
 	"duplicate",
 ]
+
