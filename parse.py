@@ -7,7 +7,7 @@ class HTMLParser(HTMLParser):
 	def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
 		op = ()
 		id_attr = [i for i in attrs if "id" in i]
-		if len(id_attr) > 0:
+		if len(id_attr) > 0 and len(id_attr[0][1]):
 			op = command_kinds[len(id_attr[0][1])]
 		else:
 			op = command_kinds[len(tag)]
@@ -16,8 +16,15 @@ class HTMLParser(HTMLParser):
 			case 0:
 				op_list.append((op[0],))
 			case 1:
-				class_attr = [i for i in attrs if "class" in i][0]
-				raw_params = class_attr[1].split(" ")
+				class_attr = [i for i in attrs if "class" in i]
+				if len(class_attr) == 0:
+					print(debug_colors["fail"] + "Class attribute missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]) + debug_colors["end"])
+					quit()
+
+				raw_params = class_attr[0][1].split(" ")
+				if len(raw_params) == 1 and raw_params[0] == '':
+					print(debug_colors["fail"] + "Required parameter missing - Line " + str(self.getpos()[0]) + ":" + str(self.getpos()[1]) + debug_colors["end"])
+					quit()
 
 				digits = raw_params[0].split("-")
 				number = ""
@@ -27,8 +34,8 @@ class HTMLParser(HTMLParser):
 				op_list.append((op[0], int(number)))
 				
 			case 2:
-				class_attr = [i for i in attrs if "class" in i][0]
-				raw_params = class_attr[1].split(" ")
+				class_attr = [i for i in attrs if "class" in i]
+				raw_params = class_attr[0][1].split(" ")
 
 				params = []
 				for param in raw_params:
@@ -51,5 +58,5 @@ def parseHTML(html):
 	print(debug_colors["good"] + "Parse complete!" + debug_colors["end"])
 	return op_list
 
-print(parseHTML(""))
+print(parseHTML('<> <iftyu live="death" class="" src="test">'))
 #print(parseHTML('<iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house">'))
