@@ -37,15 +37,15 @@ Command IDs are 1-indexed because empty ID or tag names don't really make sense.
 
 Command 2 accepts 9 operations:
 
-0. +
-1. -
-2. *
-3. /
+0. `+`
+1. `-`
+2. `*`
+3. `/`
 4. Delete
 5. Duplicate
 6. Not
-7. =
-8. <
+7. `=`
+8. `<`
 
 The boolean operators consider 0 as false and anything else as true, with 1 as default.
 
