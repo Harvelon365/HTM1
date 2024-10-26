@@ -51,9 +51,9 @@ The boolean operators consider 0 as false and anything else as true, with 1 as d
 
 ### Control Structures
 
-An if command will execute its children if and only if the data at the top of the two given stacks are equal.
+An "if" command will execute its children if and only if the data at the top of the two given stacks are equal.
 
-A loop command will repeatedly execute its children elements in order. This code endlessly outputs the number 5:
+A "loop" command will repeatedly execute its children elements in order. This code endlessly outputs the number 5:
 
 ```
 <mark class="i loveu"></mark>
