@@ -19,7 +19,7 @@ operation_kinds = [
 	"*",
 	"/",
 	"rm",
-	"dup",
+	"dup",3
 ]
 
 debug_colors = {
@@ -32,6 +32,33 @@ debug_colors = {
 
 is_debug = True
 
+test_programs = [
+	# add two numbers
+	[
+		("push", 1, ord("a")),
+		("push", 1, 2),
+		("op", 1, "+"),
+		("output", 1),
+	],
+
+	# count to 5
+	[
+		("push", 0, 0),
+		("push", 1, 5),
+		("loop",),
+		("if", 0, 1),
+		("break",),
+		("endif",),
+		("push", 0, 1),
+		("op", 0, "+"),
+		("endloop",),
+	],
+
+	# prime number test
+	[
+	],
+]
+
 def debug_print(msg, msgKind):
 	if is_debug:
 		match msgKind:
@@ -43,3 +70,4 @@ def debug_print(msg, msgKind):
 				print(debug_colors["warning"] + "😨 " + msg + debug_colors["end"])
 			case "fail":
 				print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
+				sys.exit(-1)

@@ -10,7 +10,7 @@
     <body class="bodybit-2">
         <main class="centre-darkareas">
             <h1 id="head" class="toptext-titles">My Website</h1>
-            <h2 id="myheadnot">This should not be happened!</h2>
+            <h2 id="myheadnot">Heading level 2!</h2>
             <h2 id="head" class="toptext-titles">Here you can view all the work that I have done!</h2>
             <p id="para" class="pagraph-9">This website is a portfolio of my works and acheivements in a simple and easy to read format!</p>
 
@@ -25,4 +25,4 @@
             <h2 id="myheading">This is the end of the page!</h2>
         </main>
     </body>
-</htm1>
+</htm1>        
