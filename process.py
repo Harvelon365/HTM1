@@ -57,16 +57,7 @@ class HTM1Process():
 			accum += " "
 		debug_print(accum, "note")
 
-	def command_str(self, cmd):
-		accum = cmd[0]
-		if len(cmd) >= 2:
-			accum += f" {cmd[1]}"
-		if len(cmd) >= 3:
-			accum += f" {cmd[2]}"
-		return accum
-
 	def cmd(self, command):
-		debug_print(command, "info")
 		self.print_stax_ints()
 		match command:
 			case ("null",):
