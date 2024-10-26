@@ -8,7 +8,7 @@ command_kinds = [
 	("push", 2),	# x = stack, y  = data			4
 	("input", 1),	# x = stack						5
 	("output", 1),	# x = stack						6
-	("if", 1),		# x = stack a, y = stack b		7
+	("if", 2),		# x = stack a, y = stack b		7
 	("loop", 0),	#								8
 	("flip", 1),	# x = stack						9
     ("endif", 0),	#								10
