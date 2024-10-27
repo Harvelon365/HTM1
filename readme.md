@@ -112,6 +112,12 @@ There are some optional arguments that are available that may help with troubles
 
 `-v` or `--verbose` : Enables a fully-fledged debug mode including a full stack trace and complete debug statements
 
+## Deinterpreter
+
+While there is a deinterpreter included as part of the `parser.py` file it is not very user friendly and requires janky use of the python shell and manual imports.
+
+Sorry :/
+
 ## Example Files
 
 There are example `.htm1` files in the `examples/` directory that are helpful for getting to know the language.
