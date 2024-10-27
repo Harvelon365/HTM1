@@ -61,7 +61,49 @@ test_programs = [
 
 	# prime number test
 	[
-
+		("input", 0, 1), # S0 = n
+		("push", 1, 1), # S1 = is prime
+		("push", 2, 2), # S2 = i
+		("op", 0, "dup"), # S3 = n / 2
+		("pop", 0, 3),
+		("push", 3, 2),
+		("op", 3, "/"),
+		#("push", 3, 1),
+		#("op", 3, "+"),
+		("push", 5, 1), # S5 = 1
+		("loop",),
+			("op", 3, "dup"), # S4 = S3 < S2
+			("pop", 3, 4),
+			("op", 2, "dup"),
+			("pop", 2, 4),
+			("op", 4, "<"),
+			("if", 4, 5), # if S4, so S3 < S2, so n / 2 < i then break
+				("break",),
+			("endif",),
+			("op", 4, "rm"),
+			("op", 0, "dup"), # S6 = rem = n n i / i * -
+			("pop", 0, 6),
+			("op", 0, "dup"),
+			("pop", 0, 6),
+			("op", 2, "dup"),
+			("pop", 2, 6),
+			("op", 6, "/"),
+			("op", 2, "dup"),
+			("pop", 2, 6),
+			("op", 6, "*"),
+			("op", 6, "-"),
+			("push", 7, 0), # S7 = rem == 0
+			("if", 6, 7),
+				("op", 1, "!"), # not is prime
+				("break",),
+			("endif",),
+			("op", 7, "rm"),
+			("op", 6, "rm"),
+			("push", 2, 1),
+			("op", 2, "+"),
+		("endloop",),
+		("output", 1, 1), # output is prime
+		("output", 2, 1),
 	],
 ]
 
