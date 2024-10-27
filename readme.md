@@ -12,6 +12,7 @@ A HTM1 program wants a root `<htm1>` tag, which often confuses browsers since th
 - Parameters are denoted by the number of letters in the element's classes, e.g. `class="hack notts"` makes x = 4 and y = 5. Surplus classes are ignored. This has a couple of exceptions:
 	- Dashes in a class name separate between digits of the number, so `class="jacob-h"` gives 51
 	- Instead of a word for a digit, you can just put the digit itself, so `class="jacob0"` gives 51. The number 0 can be written as `class="-"`, which we *think* is allowed in HTML. Digits don't need dashes between them.
+	- The first character in a class attribute cannot be a number so must either be punctuation or a character
 
 If an element doesn't pattern-match to any command, it just gets ignored.
 
