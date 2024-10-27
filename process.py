@@ -1,5 +1,6 @@
 from sys import stdin
 from utils import *
+import time
 
 class HTM1Process():
 
@@ -16,31 +17,24 @@ class HTM1Process():
 			else:
 				command = self.code[self.pc]
 				self.cmd(command)
+				time.sleep(0.25)
 		self.print_stax_ints()
 		debug_good("Processing complete!")
 
 	def print_stax_chars(self):
 		accum = "stax: "
-		for i in range(len(self.stax)):
-			if i not in self.stax:
-				accum += "_"
-			else:
-				accum += chr(self.stax[i][-1])
-			accum += " "
+		for k in self.stax:
+			accum += "(" + str(k) + "):" + str([chr(x) for x in self.stax[k]]) + " "
 		debug_note(accum)
 
 	def print_stax_ints(self):
 		accum = "stax: "
-		for i in range(len(self.stax)):
-			if i not in self.stax:
-				accum += "_"
-			else:
-				accum += str(self.stax[i])
-			accum += " "
+		for k in self.stax:
+			accum += "(" + str(k) + "):" + str(self.stax[k]) + " "
 		debug_note(accum)
 
 	def cmd(self, command):
-		self.print_stax_ints()
+		self.print_stax_chars()
 		match command:
 			case ("null",):
 				debug_fail("how the fuck")
@@ -164,7 +158,7 @@ class HTM1Process():
 
 	def cmd_if(self, x, y):
 		if x in self.stax and y in self.stax:
-			if self.stax[x] != self.stax[y]:
+			if self.stax[x][-1] != self.stax[y][-1]:
 				while self.code[self.pc][0] != "endif":
 					#debug_print(f"pc is {self.pc}", "note")
 					self.pc += 1

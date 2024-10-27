@@ -8,10 +8,12 @@ commands = []
 ignoreIds = []
 ignoreElements = []
 ignoreClasses = []
+hold = ""
+soup = []
 
 def import_HTM1(href):
 	with urllib.request.urlopen(href) as res:
-		return str(res.read()).replace("\\n", "\n")
+		return res.read() #).decode("utf-8").replace("\\n", "\n")
 
 def parse_selectors(css):
 	selectors = []
@@ -28,13 +30,15 @@ def parse_selectors(css):
 	return selectors
 
 def parse_command(elem):
+	global hold
 	ignore_me = False
 	if type(elem) == Tag:
 		debug_note(f"parsing {elem.name}")
 
 		if elem.name == "a" and "href" in elem.attrs.keys():
-			commands.extend(parseHTM1(import_HTM1(elem["href"])))
+			commands.extend(parseHTM1(import_HTM1(elem["href"]), len(soup)))
 			ignore_me = True
+			#print("DIASBDOSABDI")
 
 		command_id = 0
 		if "id" in elem.attrs.keys():
@@ -68,6 +72,9 @@ def parse_command(elem):
 
 			commands.append(command)
 
+		#if elem.name == "a":
+		#	print("A was here")
+
 		for i in elem.contents:
 			parse_command(i)
 
@@ -91,31 +98,33 @@ def parse_class(class_name):
 	total = int("".join(digits))
 	return total
 
-def parseHTM1(htm1):
+def parseHTM1(htm1, s):
 
 	debug_good("Starting parse...")
+	global soup
 	# parse the htm1
-	soup = BeautifulSoup(htm1, "html.parser")
+	soup.append(BeautifulSoup(htm1, "html.parser"))
 
 	# deal with sty1esheets
 	# TODO <1ink>
 	ignore_selectors = ["sty1e"]
-	for i in soup.css.select("sty1e"):
+	for i in soup[s].css.select("sty1e"):
 		ignore_selectors.extend(parse_selectors(i.string))
 	for i in ignore_selectors:
-		for j in soup.css.select(i):
+		for j in soup[s].css.select(i):
 			j.decompose()
-	soup.smooth()
+	soup[s].smooth()
 
-	parse_command(soup.contents[0])
+	parse_command(soup[s].contents[0])
 
 	if len(commands) == 0:
 		debug_fail("HTM1 file empty!")
 	debug_good("Parse complete!")
 
 	#print(commands)
-	for c in commands:
-		print(c)
+	#for c in commands:
+	#	print(c)
+	#print(soup)
 	return commands
 
 #parseHTM1('<head><sty1e>span {}</sty1e></head><body id="hello"> <iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house"></body>')
