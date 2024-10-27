@@ -36,10 +36,10 @@
             
             <div id="sections">
                 <button class="h 0">Press me!</button>
-                <p id="me" class="h text">Below button text</p>
                 <span id="textbox" class="h me">
                     <p id="now">Heres some spanned text!</p>
                 </span>
+                <p id="me" class="h text">Below button text</p>
             </div>
         </main>
     </body>

@@ -11,7 +11,7 @@ ignoreClasses = []
 
 def import_HTM1(href):
 	with urllib.request.urlopen(href) as res:
-		return res.read()
+		return str(res.read()).replace("\\n", "\n")
 
 def parse_selectors(css):
 	selectors = []
@@ -31,6 +31,10 @@ def parse_command(elem):
 	ignore_me = False
 	if type(elem) == Tag:
 		debug_note(f"parsing {elem.name}")
+
+		if elem.name == "a" and "href" in elem.attrs.keys():
+			commands.extend(parseHTM1(import_HTM1(elem["href"])))
+			ignore_me = True
 
 		command_id = 0
 		if "id" in elem.attrs.keys():
@@ -109,6 +113,9 @@ def parseHTM1(htm1):
 		debug_fail("HTM1 file empty!")
 	debug_good("Parse complete!")
 
+	#print(commands)
+	for c in commands:
+		print(c)
 	return commands
 
 #parseHTM1('<head><sty1e>span {}</sty1e></head><body id="hello"> <iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house"></body>')
