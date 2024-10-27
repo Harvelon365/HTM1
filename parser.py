@@ -28,14 +28,42 @@ def parse_selectors(css):
 	return selectors
 
 def parse_command(elem):
+	commands = []
 	if type(elem) == Tag:
 		debug_note(f"parsing {elem.name}")
+
+		command_id = 0
+		if "id" in elem.attrs.keys():
+			command_id = len(elem["id"])
+		else:
+			command_id = len(elem.name)
+		command = (command_kinds[command_id][0],)
+
+		expected_n_params = command_kinds[command_id][1]
+		classes = elem["class"]
+		for i in range(expected_n_params):
+			command.append(len(parse_class(classes[i])))
+
 		for i in elem.contents:
 			parse_command(i)
+	return commands
 
-def convertToInstruction(element):
-	if element.name in ignoreElements or element.id in ignoreIds or element['class'] in ignoreClasses:
-		return 0
+def parse_class(class_name):
+	digits = []
+	i = 0
+	while i < len(class_name):
+		if class_name[i].isnumeric():
+			digits.append(class_name[i])
+		elif class_name[i] == "_" or class_name[i] == "-":
+			pass
+		else:
+			if i == 0 or class_name[i - 1].isnumeric() or class_name[i - 1] == "_" or class_name[i - 1] == "-":
+				digits.append(0)
+			digits[-1] += 1
+		i += 1
+	digits = [str(i) for i in digits]
+	total = int("".join(digits))
+	return total
 
 def parseHTM1(htm1):
 	debug_note("Starting parse...")
