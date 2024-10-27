@@ -19,22 +19,23 @@
                 <p id="para" class="h pagraph-9">I am a student at university studying computer science, I am interested in operating systems and Rust.</p>
                 <p id="para" class="h maintext-sm">I enjoy long walks in the country side and romps in the fenns and spinneys.</p>
                 <img id="tile" class="h imaging-square" src="./image/me.png">
-                <p id="subs" class="h subtit-maintext">This is a picture of me wearing a large winter coat ready to go out and explore.</p>
+                <p id="subs" class="h subtit-mainte">This is a picture of me wearing a large winter coat ready to go out and explore.</p>
                 <p id="subs" class="h h-0">The coat is very fluffy!</p>
             </section>
             
             <p id="para" class="2 abcdefghij">Ooooh bet you werent expecting more text here</p>
-
 
             <h2 id="myheading" class="h">This is the end of the page!</h2>
 
             
             <div id="sections">
                 <button class="h 0">Press me!</button>
-                <p id="me" class="h text">Below button text</p>
                 <span id="textbox" class="h me">
+                    <p id="me" class="h text">Below button text</p>
+                    <p id="me" class="ho text">Below button text</p>
                     <p id="now">Heres some spanned text!</p>
                 </span>
+                <p id="me" class="h text">Below button text</p>
             </div>
         </main>
     </body>

@@ -76,6 +76,8 @@ Commands 5 and 6 accept a boolean "mode" as y:
 
 You can import external HTM1 code with a cheeky `<a href="https://link.to/resource.htm1">`. HTM1 files are best served from a webserver, but for compatibility reasons you might want to override the MIME type to be `text/html`, otherwise browsers won't know what to do with it.
 
+Beware there is no protection built in for infinite recursion and this will lead to stack errors!
+
 ### CSS
 
 If you want the interpreter to ignore certain elements, you should use `<sty1e>` (notice that's a 1 again, not an L). Elements inside this tag mimic the format of a CSS stylsheet, allowing you to specify which elements to ignore with the selectors. For example, to ignore any element with `class="boring"`:

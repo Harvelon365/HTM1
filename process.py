@@ -17,7 +17,7 @@ class HTM1Process():
 			else:
 				command = self.code[self.pc]
 				self.cmd(command)
-				time.sleep(0.25)
+				#time.sleep(0.25)
 		self.print_stax_ints()
 		debug_good("Processing complete!")
 
@@ -151,7 +151,6 @@ class HTM1Process():
 		n = 0
 		if x in self.stax and len(self.stax[x]) > 0:
 			n = self.stax[x][-1]
-			print(self.stax[x][-1])
 		if y == 0:
 			print(chr(n), end="")
 		else:
