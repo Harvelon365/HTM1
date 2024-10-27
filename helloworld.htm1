@@ -38,6 +38,8 @@
                 <button class="h 0">Press me!</button>
                 <span id="textbox" class="h me">
                     <p id="now">Heres some spanned text!</p>
+                    <p id="me" class="h text">Below button text</p>
+                    <p id="me" class="ho text">Below button text</p>
                 </span>
                 <p id="me" class="h text">Below button text</p>
             </div>
