@@ -65,23 +65,26 @@ test_programs = [
 	],
 ]
 
+def set_debug(status):
+	global is_debug
+	is_debug = status
 
 def debug_note(msg):
-	if is_debug:
+	if is_debug == 2:
 		print(debug_colors["note"] + "☝ " + msg + debug_colors["end"])
 	return
 
 def debug_good(msg):
-	if is_debug:
+	if is_debug > 0:
 		print(debug_colors["good"] + "😎 " + msg + debug_colors["end"])
 	return
 
 def debug_warning(msg):
-	if is_debug:
+	if is_debug > 0:
 		print(debug_colors["warning"] + "😨 " + msg + debug_colors["end"])
 	return
 
 def debug_fail(msg):
-	if is_debug:
+	if is_debug > 0:
 		print(debug_colors["fail"] + "💀 " + msg + debug_colors["end"])
 	sys.exit(-1)

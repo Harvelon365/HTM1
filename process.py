@@ -9,6 +9,7 @@ class HTM1Process():
 		self.pc = 0
 
 	def run(self):
+		debug_good("Starting process...")
 		while True:
 			if self.pc >= len(self.code):
 				break
@@ -16,6 +17,7 @@ class HTM1Process():
 				command = self.code[self.pc]
 				self.cmd(command)
 		self.print_stax_ints()
+		debug_good("Processing complete!")
 
 	def print_stax_chars(self):
 		accum = "stax: "

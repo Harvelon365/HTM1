@@ -4,7 +4,7 @@ import urllib.request
 
 # the new parser, using beatifulsoup
 
-op_list = []
+commands = []
 ignoreIds = []
 ignoreElements = []
 ignoreClasses = []
@@ -28,7 +28,7 @@ def parse_selectors(css):
 	return selectors
 
 def parse_command(elem):
-	commands = []
+	ignore_me = False
 	if type(elem) == Tag:
 		debug_note(f"parsing {elem.name}")
 
@@ -40,13 +40,35 @@ def parse_command(elem):
 		command = (command_kinds[command_id][0],)
 
 		expected_n_params = command_kinds[command_id][1]
-		classes = elem["class"]
-		for i in range(expected_n_params):
-			command.append(len(parse_class(classes[i])))
+
+		if "class" in elem.attrs.keys():
+			classes = elem["class"]
+			if len(classes) < expected_n_params:
+				debug_warning("Incorrect amount of classes found. Skipping element '" + elem.name + "'")
+				ignore_me = True
+		else:
+			if expected_n_params != 0:
+				debug_warning("Incorrect amount of classes found. Skipping element '" + elem.name + "'")
+				ignore_me = True
+
+		
+
+		if not ignore_me:
+			if expected_n_params > 0:
+				command += (parse_class(classes[0]),)
+			if expected_n_params > 1:
+				if command[0] == "op":
+					command += (operation_kinds[parse_class(classes[1])],)
+				else:
+					command += (parse_class(classes[1]),)
+
+			commands.append(command)
 
 		for i in elem.contents:
 			parse_command(i)
-	return commands
+
+		if command[0] == "if" or command[0] == "loop":
+			commands.append(("end" + command[0],))
 
 def parse_class(class_name):
 	digits = []
@@ -66,7 +88,8 @@ def parse_class(class_name):
 	return total
 
 def parseHTM1(htm1):
-	debug_note("Starting parse...")
+
+	debug_good("Starting parse...")
 	# parse the htm1
 	soup = BeautifulSoup(htm1, "html.parser")
 
@@ -76,19 +99,16 @@ def parseHTM1(htm1):
 	for i in soup.css.select("sty1e"):
 		ignore_selectors.extend(parse_selectors(i.string))
 	for i in ignore_selectors:
-		print(soup.css.select(i))
 		for j in soup.css.select(i):
 			j.decompose()
 	soup.smooth()
 
-	commands = parse_command(soup.contents[0])
+	parse_command(soup.contents[0])
 
-	if len(op_list) == 0:
+	if len(commands) == 0:
 		debug_fail("HTM1 file empty!")
-	if len(blocks) > 0:
-		debug_fail("Incomplete loop/if structure present!")
 	debug_good("Parse complete!")
 
-	return op_list
+	return commands
 
 #parseHTM1('<head><sty1e>span {}</sty1e></head><body id="hello"> <iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house"></body>')

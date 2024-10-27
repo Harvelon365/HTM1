@@ -11,6 +11,7 @@ argparser = argparse.ArgumentParser(prog="HTM1 Interpreter",
 									epilog="Visit https://github.com/Harvelon365/HTM1 to see the full readme and docs")
 argparser.add_argument("-f","--filename", type=pathlib.Path, default=None, help="the .htm1 file you want to execute")
 argparser.add_argument("-d", "--debug", help="enable debug mode", action="store_true")
+argparser.add_argument("-v", "--verbose", help="enable verbose debug mode", action="store_true")
 argparser.add_argument("-t", "--test", type=int, help="run test program with id")
 args = argparser.parse_args()
 
@@ -26,8 +27,11 @@ def main():
 		debug_fail("No program specified")
 
 if __name__ == '__main__':
-	if (args.debug):
-		is_debug = True
+	if (args.debug or args.verbose):
+		if (args.verbose):
+			set_debug(2)
+		else:
+			set_debug(1)
 	else:
-		is_debug = False
+		set_debug(0)
 	main()

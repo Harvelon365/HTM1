@@ -106,6 +106,8 @@ HTM1 is interpretted using python so written code can easily be run locally on y
 
 There are some optional arguments that are available that may help with troubleshooting:
 
-`-d` or `--debug` : Enables debug output including full stack trace and conservative error messages
+`-d` or `--debug` : Enables a reduced debug output including warning, success and error messages
 
 `-t` or `--test` : Run predefined test programs to test the interpreter integrity (is not run when a filename is provided)
+
+`-v` or `--verbose` : Enables a fully-fledged debug mode including a full stack trace and complete debug statements
