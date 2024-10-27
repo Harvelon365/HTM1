@@ -100,7 +100,7 @@ class HTM1Process():
 				if len(s) >= 2:
 					a = s.pop()
 					b = s.pop()
-					self.cmd_push(x, a-b)
+					self.cmd_push(x, b - a)
 			case "*":
 				if len(s) >= 2:
 					a = s.pop()
@@ -110,7 +110,7 @@ class HTM1Process():
 				if len(s) >= 2:
 					a = s.pop()
 					b = s.pop()
-					self.cmd_push(x, a//b)
+					self.cmd_push(x, b // a)
 			case "rm":
 				if len(s) >= 1:
 					s.pop()
@@ -132,7 +132,7 @@ class HTM1Process():
 				if len(s) >= 2:
 					a = s.pop()
 					b = s.pop()
-					self.cmd_push(x, 1 if a < b else 0)
+					self.cmd_push(x, 1 if b < a else 0)
 
 	def cmd_break(self):
 		#debug_print(f"pc is {self.pc}, code is {self.code}", "note")

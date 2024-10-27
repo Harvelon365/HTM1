@@ -2,29 +2,29 @@ import sys
 
 command_kinds = [
 	("null", 0),	# ignore						0
-	("pop", 2),		# x = stack from, y = stack to	1
-	("op", 2),		# x = stack, y = opcode			2
-	("break", 0),	#								3
-	("push", 2),	# x = stack, y  = data			4
-	("input", 2),	# x = stack, y = is long str	5
-	("output", 2),	# x = stack, y = is long str	6
-	("if", 2),		# x = stack a, y = stack b		7
-	("loop", 0),	#								8
+	("pop", 2),		# x = stack from, y = stack to	1	p i b
+	("op", 2),		# x = stack, y = opcode			2	em ul ol li
+	("break", 0),	#								3	div nav pre var
+	("push", 2),	# x = stack, y  = data			4	code main span
+	("input", 2),	# x = stack, y = is long str	5	aside title
+	("output", 2),	# x = stack, y = is long str	6	figure header script
+	("if", 2),		# x = stack a, y = stack b		7	article caption section
+	("loop", 0),	#								8	noscript textarea
 	("flip", 1),	# x = stack						9
     ("endif", 0),	#								10
     ("endloop", 0), #				 				11
 ]
 
 operation_kinds = [
-	"+",
-	"-",
-	"*",
-	"/",
-	"rm",
-	"dup",
-	"!",
-	"=",
-	"<",
+	"+",	# 0
+	"-",	# 1
+	"*",	# 2
+	"/",	# 3
+	"rm",	# 4
+	"dup",	# 5
+	"!",	# 6
+	"=",	# 7
+	"<",	# 8
 ]
 
 debug_colors = {
@@ -59,7 +59,7 @@ test_programs = [
 		("endloop",),
 	],
 
-	# prime number test
+	# prime number test, written up in examples/is_prime.htm1
 	[
 		("input", 0, 1), # S0 = n
 		("push", 1, 1), # S1 = is prime
@@ -94,7 +94,8 @@ test_programs = [
 			("op", 6, "-"),
 			("push", 7, 0), # S7 = rem == 0
 			("if", 6, 7),
-				("op", 1, "!"), # not is prime
+				("op", 1, "rm"), # is prime = 0
+				("push", 1, 0),
 				("break",),
 			("endif",),
 			("op", 7, "rm"),
@@ -103,7 +104,11 @@ test_programs = [
 			("op", 2, "+"),
 		("endloop",),
 		("output", 1, 1), # output is prime
-		("output", 2, 1),
+		("op", 5, "rm"), # if is prime == 0
+		("push", 5, 0),
+		("if", 1, 5),
+			("output", 2, 1), # factor
+		("endif",),
 	],
 ]
 
