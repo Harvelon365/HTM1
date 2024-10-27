@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup, Tag
 from utils import *
 import urllib.request
+import time
 
 # the new parser, using beatifulsoup
 
@@ -33,7 +34,6 @@ def parse_command(elem):
 	global hold
 	ignore_me = False
 	if type(elem) == Tag:
-		debug_note(f"parsing {elem.name}")
 
 		if elem.name == "a" and "href" in elem.attrs.keys():
 			parseHTM1(import_HTM1(elem["href"]), len(soup))
@@ -45,6 +45,8 @@ def parse_command(elem):
 		else:
 			command_id = len(elem.name)
 		command = (command_kinds[command_id][0],)
+
+		print("open", elem.name))
 
 		expected_n_params = command_kinds[command_id][1]
 
@@ -69,12 +71,16 @@ def parse_command(elem):
 				else:
 					command += (parse_class(classes[1]),)
 
+			debug_note(f"parsed {elem.name.rjust(12)} -> {command}")
 			commands.append(command)
 
 
 		for i in elem.contents:
 			parse_command(i)
+		for i in range(len(list(elem.descendants))):
+			time.sleep(0.01)
 
+		print("close", elem.name)
 		if command[0] == "if" or command[0] == "loop":
 			commands.append(("end" + command[0],))
 
@@ -91,6 +97,8 @@ def parse_class(class_name):
 				digits.append(0)
 			digits[-1] += 1
 		i += 1
+	if len(digits) == 0:
+		digits = [0]
 	digits = [str(i) for i in digits]
 	total = int("".join(digits))
 	return total
@@ -126,13 +134,13 @@ def htm1ify_commands(commands):
 			case ("if", x, y):
 				elems += f"<section class='{classify_int(x)} {classify_int(y)}'></section>"
 			case ("loop",):
-				elems += f"<p id='aaaaaaaa'></p>"
+				elems += f"<p id='aaaaaaaa'>"
 			case ("flip", x):
 				elems += f"<p id='aaaaaaaaa' class='{classify_int(x)}'></p>"
 			case ("endif",):
-				elems += f"<p id='aaaaaaaaaa'></p>"
+				elems += f"</p>"
 			case ("endloop",):
-				elems += f"<p id='aaaaaaaaaaa'></p>"
+				elems += f"</p>"
 		elems += "\n"
 	return elems
 
@@ -154,6 +162,8 @@ def parseHTM1(htm1, s):
 	soup[s].smooth()
 
 	parse_command(soup[s].contents[0])
+	for i in commands:
+		print(i)
 
 	if len(commands) == 0:
 		debug_fail("HTM1 file empty!")
