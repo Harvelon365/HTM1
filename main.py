@@ -5,7 +5,6 @@ from parser import parseHTM1
 from process import HTM1Process
 import argparse
 import pathlib
-import time
 
 argparser = argparse.ArgumentParser(prog="HTM1 Interpreter", 
 									description="An interpreter system for the HTM1 esoteric programming language",
