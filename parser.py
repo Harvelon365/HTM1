@@ -95,6 +95,47 @@ def parse_class(class_name):
 	total = int("".join(digits))
 	return total
 
+def classify_int(n):
+	class_name = ""
+	digits = list(str(n))
+	if n == 0:
+		return "_"
+	class_name += ("a" * int(digits.pop(0)))
+	for i in digits:
+		class_name += i
+	return class_name
+def htm1ify_commands(commands):
+	elems = ""
+	for i in commands:
+		match i:
+			case ("null",):
+				pass
+			case ("pop", x, y):
+				elems += f"<p class='{classify_int(x)} {classify_int(y)}'></p>"
+			case ("op", x, y):
+				opcode = operation_kinds.index(y)
+				elems += f"<li class='{classify_int(x)} {classify_int(opcode)}'></li>"
+			case ("break",):
+				elems += f"<div class=''></div>"
+			case ("push", x, y):
+				elems += f"<span class='{classify_int(x)} {classify_int(y)}'></span>"
+			case ("input", x, y):
+				elems += f"<aside class='{classify_int(x)} {classify_int(y)}'></aside>"
+			case ("output", x, y):
+				elems += f"<script class='{classify_int(x)} {classify_int(y)}'></script>"
+			case ("if", x, y):
+				elems += f"<section class='{classify_int(x)} {classify_int(y)}'></section>"
+			case ("loop",):
+				elems += f"<p id='aaaaaaaa'></p>"
+			case ("flip", x):
+				elems += f"<p id='aaaaaaaaa' class='{classify_int(x)}'></p>"
+			case ("endif",):
+				elems += f"<p id='aaaaaaaaaa'></p>"
+			case ("endloop",):
+				elems += f"<p id='aaaaaaaaaaa'></p>"
+		elems += "\n"
+	return elems
+
 def parseHTM1(htm1, s):
 
 	debug_good("Starting parse...")
@@ -125,3 +166,4 @@ def parseHTM1(htm1, s):
 	return commands
 
 #parseHTM1('<head><sty1e>span {}</sty1e></head><body id="hello"> <iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house"></body>')
+
