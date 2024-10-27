@@ -32,12 +32,12 @@
             <h2 id="myheading" class="h">This is the end of the page!</h2>
             
             <div id="sections">
-                <button class="h 0">Press me!</button>
                 <span id="textbox" class="h me">
                     <p id="now">Heres some spanned text!</p>
                     <p id="me" class="h text">Below button text</p>
                     <p id="me" class="ho text">Below button text</p>
                 </span>
+                <button class="h 0">Press me!</button>
                 <p id="me" class="h text">Below button text</p>
             </div>
         </main>
