@@ -134,3 +134,7 @@ An evolution of the 'hello world' program that runs itself and imports the regul
 	HELLO WORLD
 	HELLO WORLB
 ```
+
+### is_prime.htm1
+
+This is the largest HTM1 file. Input a number (in Unicode with a `\n` at the end) to `stdin`. If the number is prime prints 1, or if it's composite it prints 0 followed by a factor. I didn't find the time to make it look like real HTML.
