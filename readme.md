@@ -16,8 +16,6 @@ A HTM1 program wants a root `<htm1>` tag, which often confuses browsers since th
 
 If an element doesn't pattern-match to any command, it just gets ignored.
 
-There are example `.htm1` files in the `examples/` directorythat are helpful for getting to know the language.
-
 ### Commands
 
 Commands in HTM1 operate on an *theoretically* infinite set of stacks of integers. We thought stacks were more fun than your average Turing tape, and it means no command needs more than two parameters. Like any good language, there's built-in Unicode support.
@@ -113,3 +111,20 @@ There are some optional arguments that are available that may help with troubles
 `-t` or `--test` : Run predefined test programs to test the interpreter integrity (is not run when a filename is provided)
 
 `-v` or `--verbose` : Enables a fully-fledged debug mode including a full stack trace and complete debug statements
+
+## Example Files
+
+There are example `.htm1` files in the `examples/` directory that are helpful for getting to know the language.
+
+### helloworld.htm1
+
+The simplest of programs that prints out `HELLO WORLD` to the console
+
+### helloworld_import.htm1
+
+An evolution of the 'hello world' program that runs itself and imports the regular 'hello world' program. Should output:
+
+```
+	HELLO WORLD
+	HELLO WORLB
+```
