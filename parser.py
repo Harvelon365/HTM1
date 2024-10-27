@@ -5,7 +5,6 @@ import time
 
 # the new parser, using beatifulsoup
 
-commands = []
 ignoreIds = []
 ignoreElements = []
 ignoreClasses = []
@@ -31,8 +30,8 @@ def parse_selectors(css):
 	return selectors
 
 def parse_command(elem):
-	global hold
 	ignore_me = False
+	commands = []
 	if type(elem) == Tag:
 
 		if elem.name == "a" and "href" in elem.attrs.keys():
@@ -46,8 +45,6 @@ def parse_command(elem):
 			command_id = len(elem.name)
 		command = (command_kinds[command_id][0],)
 
-		print("open", elem.name))
-
 		expected_n_params = command_kinds[command_id][1]
 
 		if "class" in elem.attrs.keys():
@@ -59,8 +56,6 @@ def parse_command(elem):
 			if expected_n_params != 0:
 				debug_warning("Incorrect amount of classes found. Skipping element '" + elem.name + "'")
 				ignore_me = True
-
-		
 
 		if not ignore_me:
 			if expected_n_params > 0:
@@ -76,13 +71,13 @@ def parse_command(elem):
 
 
 		for i in elem.contents:
-			parse_command(i)
-		for i in range(len(list(elem.descendants))):
-			time.sleep(0.01)
+			if type(i) == Tag:
+				commands.extend(parse_command(i))
 
-		print("close", elem.name)
+		#time.sleep(0.1 * len(elem.contents))
 		if command[0] == "if" or command[0] == "loop":
 			commands.append(("end" + command[0],))
+		return commands
 
 def parse_class(class_name):
 	digits = []
@@ -132,13 +127,13 @@ def htm1ify_commands(commands):
 			case ("output", x, y):
 				elems += f"<script class='{classify_int(x)} {classify_int(y)}'></script>"
 			case ("if", x, y):
-				elems += f"<section class='{classify_int(x)} {classify_int(y)}'></section>"
+				elems += f"<section class='{classify_int(x)} {classify_int(y)}'>"
 			case ("loop",):
 				elems += f"<p id='aaaaaaaa'>"
 			case ("flip", x):
 				elems += f"<p id='aaaaaaaaa' class='{classify_int(x)}'></p>"
 			case ("endif",):
-				elems += f"</p>"
+				elems += f"</section>"
 			case ("endloop",):
 				elems += f"</p>"
 		elems += "\n"
@@ -161,9 +156,7 @@ def parseHTM1(htm1, s):
 			j.decompose()
 	soup[s].smooth()
 
-	parse_command(soup[s].contents[0])
-	for i in commands:
-		print(i)
+	commands = parse_command(soup[s].contents[0])
 
 	if len(commands) == 0:
 		debug_fail("HTM1 file empty!")
