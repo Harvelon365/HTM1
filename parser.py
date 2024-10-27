@@ -36,9 +36,8 @@ def parse_command(elem):
 		debug_note(f"parsing {elem.name}")
 
 		if elem.name == "a" and "href" in elem.attrs.keys():
-			commands.extend(parseHTM1(import_HTM1(elem["href"]), len(soup)))
+			parseHTM1(import_HTM1(elem["href"]), len(soup))
 			ignore_me = True
-			#print("DIASBDOSABDI")
 
 		command_id = 0
 		if "id" in elem.attrs.keys():
@@ -71,10 +70,7 @@ def parse_command(elem):
 					command += (parse_class(classes[1]),)
 
 			commands.append(command)
-			debug_note(f"parsed {elem.name.rjust(12)} -> {command}")
 
-		#if elem.name == "a":
-		#	print("A was here")
 
 		for i in elem.contents:
 			parse_command(i)
@@ -95,8 +91,6 @@ def parse_class(class_name):
 				digits.append(0)
 			digits[-1] += 1
 		i += 1
-	if len(digits) == 0:
-		digits = [0]
 	digits = [str(i) for i in digits]
 	total = int("".join(digits))
 	return total
@@ -126,50 +120,8 @@ def parseHTM1(htm1, s):
 
 	#print(commands)
 	#for c in commands:
-	#	print(c)
+		#print(c)
 	#print(soup)
 	return commands
-
-def classify_int(n):
-	class_name = ""
-	digits = list(str(n))
-	if n == 0:
-		return "_"
-	class_name += ("a" * int(digits.pop(0)))
-	for i in digits:
-		class_name += i
-	return class_name
-
-def htm1ify_commands(commands):
-	elems = ""
-	for i in commands:
-		match i:
-			case ("null",):
-				pass
-			case ("pop", x, y):
-				elems += f"<p class='{classify_int(x)} {classify_int(y)}'></p>"
-			case ("op", x, y):
-				opcode = operation_kinds.index(y)
-				elems += f"<li class='{classify_int(x)} {classify_int(opcode)}'></li>"
-			case ("break",):
-				elems += f"<div class=''></div>"
-			case ("push", x, y):
-				elems += f"<span class='{classify_int(x)} {classify_int(y)}'></span>"
-			case ("input", x, y):
-				elems += f"<aside class='{classify_int(x)} {classify_int(y)}'></aside>"
-			case ("output", x, y):
-				elems += f"<script class='{classify_int(x)} {classify_int(y)}'></script>"
-			case ("if", x, y):
-				elems += f"<section class='{classify_int(x)} {classify_int(y)}'></section>"
-			case ("loop",):
-				elems += f"<p id='aaaaaaaa'></p>"
-			case ("flip", x):
-				elems += f"<p id='aaaaaaaaa' class='{classify_int(x)}'></p>"
-			case ("endif",):
-				elems += f"<p id='aaaaaaaaaa'></p>"
-			case ("endloop",):
-				elems += f"<p id='aaaaaaaaaaa'></p>"
-		elems += "\n"
-	return elems
 
 #parseHTM1('<head><sty1e>span {}</sty1e></head><body id="hello"> <iftyu live="death" class="hello-dgshadsa people" src="test"> <div id="test" class="lonely gay"> <span id="abcdefg" class="house"></body>')

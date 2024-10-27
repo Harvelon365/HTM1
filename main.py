@@ -18,7 +18,11 @@ args = argparser.parse_args()
 def main():
 	if args.filename != None:
 		f = open(args.filename, "r")
-		proc = HTM1Process(parseHTM1(f.read(), 0))
+		htm = parseHTM1(f.read(), 0)
+		for c in htm:
+			print(c)
+			
+		proc = HTM1Process(htm)
 		proc.run()
 	elif args.test != None:
 		proc = HTM1Process(test_programs[args.test])

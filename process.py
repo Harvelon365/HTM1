@@ -34,7 +34,7 @@ class HTM1Process():
 		debug_note(accum)
 
 	def cmd(self, command):
-		self.print_stax_chars()
+		self.print_stax_ints()
 		match command:
 			case ("null",):
 				debug_fail("how the fuck")
@@ -151,6 +151,7 @@ class HTM1Process():
 		n = 0
 		if x in self.stax and len(self.stax[x]) > 0:
 			n = self.stax[x][-1]
+			print(self.stax[x][-1])
 		if y == 0:
 			print(chr(n), end="")
 		else:
